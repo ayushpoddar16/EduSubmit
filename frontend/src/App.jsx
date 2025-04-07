@@ -23,9 +23,17 @@ const App = () => {
 
   const [getCurrentContent, setGetCurrentContent] = useState(() => () => "");
 
-  const handleContentChange = useCallback((getContentFn) => {
-    setGetCurrentContent(() => getContentFn);
-  }, []);
+  const handleContentChange = useCallback(
+    (getContentFn) => {
+      // Update the getCurrentContent function for exporting
+      setGetCurrentContent(() => getContentFn);
+  
+      // Update the currentNote content in real-time
+      const currentContent = getContentFn();
+      updateCurrentNoteContent(currentContent);
+    },
+    [updateCurrentNoteContent]
+  );
 
   const handleNewNote = () => {
     createNewNote(); // This will use the default placeholder content
@@ -48,13 +56,26 @@ const App = () => {
   };
 
   const handleExportNotes = () => {
-    const blob = new Blob([JSON.stringify(notes, null, 2)], {
-      type: "application/json",
+    // Get the latest content from the editor (HTML format)
+    const currentHtmlContent = getCurrentContent();
+    
+    // Create a proper HTML to text conversion
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = currentHtmlContent;
+    const textContent = tempDiv.textContent || tempDiv.innerText || '';
+    
+    // Create a text file with the note title and content
+    const textToExport = `${currentNote.title}\n\n${textContent}`;
+    
+    // Create a blob with the text content
+    const blob = new Blob([textToExport], {
+      type: "text/plain"
     });
+    
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "notes.json"; // The name of the exported file
+    a.download = `${currentNote.title.replace(/\s+/g, '-')}.txt`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -108,9 +129,7 @@ const App = () => {
             updateNoteTitle(currentNote.id, newTitle)
           }
           onSave={handleSave}
-          onContentChange={(getContent) =>
-            updateCurrentNoteContent(getContent())
-          } // Use the centralized function
+          onContentChange={handleContentChange}
         />
       </main>
 

@@ -36,7 +36,10 @@ const NotesList = ({
 
   const handleSaveTitle = (noteId) => {
     if (editedTitle.trim() === "") {
-      alert("Title cannot be empty!");
+      alert("The note title is empty. It has been renamed to 'Untitled Note....'.");
+      setEditedTitle("Untitled Note"); // Temporarily set the title in the input field
+      onUpdateNoteTitle(noteId, "Untitled Note"); // Update the title to "Untitled Note"
+      setTimeout(() => setEditingNoteId(null), 0); // Exit edit mode
       return;
     }
 
@@ -127,18 +130,18 @@ const NotesList = ({
                 ) : (
                   <div className="flex items-center justify-between w-full">
                     <div
-  onClick={() => onNoteSelect(note.id)} // Call the parent function to select the note
-  className="cursor-pointer flex-grow pr-4"
->
-  <h3 className="font-medium truncate">{note.title}</h3>
-  <p className="text-xs text-gray-500 mt-1">
-    {new Date(note.lastEdited).toLocaleDateString()} •
-    {new Date(note.lastEdited).toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    })}
-  </p>
-</div>
+                      onClick={() => onNoteSelect(note.id)} // Call the parent function to select the note
+                      className="cursor-pointer flex-grow pr-4"
+                    >
+                      <h3 className="font-medium truncate">{note.title}</h3>
+                      <p className="text-xs text-gray-500 mt-1">
+                        {new Date(note.lastEdited).toLocaleDateString()} •
+                        {new Date(note.lastEdited).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </p>
+                    </div>
 
                     <div className="flex space-x-2">
                       {/* Edit Button */}
