@@ -18,7 +18,6 @@ const App = () => {
     updateNoteTitle, // Provided by `useNotes`
     deleteNote,
     exportNotes,
-    importNotes,
   } = useNotes();
 
   const [getCurrentContent, setGetCurrentContent] = useState(() => () => "");
@@ -27,7 +26,7 @@ const App = () => {
     (getContentFn) => {
       // Update the getCurrentContent function for exporting
       setGetCurrentContent(() => getContentFn);
-  
+
       // Update the currentNote content in real-time
       const currentContent = getContentFn();
       updateCurrentNoteContent(currentContent);
@@ -58,24 +57,21 @@ const App = () => {
   const handleExportNotes = () => {
     // Get the latest content from the editor (HTML format)
     const currentHtmlContent = getCurrentContent();
-    
+
     // Create a proper HTML to text conversion
-    const tempDiv = document.createElement('div');
+    const tempDiv = document.createElement("div");
     tempDiv.innerHTML = currentHtmlContent;
-    const textContent = tempDiv.textContent || tempDiv.innerText || '';
-    
-    // Create a text file with the note title and content
-    const textToExport = `${currentNote.title}\n\n${textContent}`;
-    
+    const textContent = tempDiv.textContent || tempDiv.innerText || "";
+
     // Create a blob with the text content
-    const blob = new Blob([textToExport], {
-      type: "text/plain"
+    const blob = new Blob([textContent], {
+      type: "text/plain",
     });
-    
+
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `${currentNote.title.replace(/\s+/g, '-')}.txt`;
+    a.download = `${currentNote.title.replace(/\s+/g, "-")}.txt`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -93,17 +89,17 @@ const App = () => {
     return uniqueNotes;
   }, [notes, currentNote]);
 
-    // Scroll to the top when the component mounts
-    useEffect(() => {
-      const scrollToTop = () => {
-        window.scrollTo(0, 0); // Scroll to the top-left corner of the page
-      };
-    
-      // Add a slight delay to ensure the DOM is fully rendered
-      const timeoutId = setTimeout(scrollToTop, 0);
-    
-      return () => clearTimeout(timeoutId); // Cleanup timeout on unmount
-    }, []);
+  // Scroll to the top when the component mounts
+  useEffect(() => {
+    const scrollToTop = () => {
+      window.scrollTo(0, 0); // Scroll to the top-left corner of the page
+    };
+
+    // Add a slight delay to ensure the DOM is fully rendered
+    const timeoutId = setTimeout(scrollToTop, 0);
+
+    return () => clearTimeout(timeoutId); // Cleanup timeout on unmount
+  }, []);
   return (
     <div className="flex flex-col min-h-screen bg-purple-300">
       <Navbar
@@ -111,7 +107,6 @@ const App = () => {
         onSave={handleSaveNote}
         isSaving={isSaving}
         onExport={handleExportNotes}
-        onImport={importNotes}
       />
 
       <main className="flex flex-grow container mx-auto p-4 pt-16">
