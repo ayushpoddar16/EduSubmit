@@ -66,7 +66,7 @@ export const useNotes = () => {
           : note
       )
     );
-  
+
     // Ensure the currentNote is updated if it's the same note
     if (currentNote.id === noteId && currentNote.title !== newTitle) {
       setCurrentNote((prevNote) => ({
@@ -80,9 +80,9 @@ export const useNotes = () => {
   // Update the content of the current note
   const updateCurrentNoteContent = (newContent) => {
     // Only update if content has changed and isn't empty
-    if (typeof newContent === 'string' && newContent !== currentNote.content) {
+    if (typeof newContent === "string" && newContent !== currentNote.content) {
       const now = new Date();
-      
+
       // Update the current note
       setCurrentNote((prevNote) => ({
         ...prevNote,
@@ -104,12 +104,12 @@ export const useNotes = () => {
   // Switch to a different note
   const switchToNote = (noteId) => {
     if (currentNote.id === noteId) return; // Already on this note
-    
+
     // Find the note to switch to
     const nextNote = notes.find((note) => note.id === noteId);
     if (nextNote) {
       // Update the current note
-      setCurrentNote({...nextNote});
+      setCurrentNote({ ...nextNote });
     }
   };
 
@@ -125,7 +125,7 @@ export const useNotes = () => {
         createNewNote();
       }
     }
-    
+
     // Remove the note from the notes array
     setNotes((prevNotes) => prevNotes.filter((note) => note.id !== noteId));
   };
@@ -143,28 +143,12 @@ export const useNotes = () => {
     URL.revokeObjectURL(url);
   };
 
-  // Import notes from JSON
-  const importNotes = (importedNotes) => {
-    if (!Array.isArray(importedNotes)) {
-      console.error("Invalid import format");
-      return;
-    }
-    
-    setNotes((prevNotes) => [
-      ...prevNotes,
-      ...importedNotes.map((note) => ({
-        ...note,
-        lastEdited: new Date(note.lastEdited),
-      })),
-    ]);
-  };
-  
   // Save the current note
   const handleSave = (content) => {
-    if (!content || typeof content !== 'string') return;
-    
+    if (!content || typeof content !== "string") return;
+
     setIsSaving(true);
-    
+
     // Update the current note
     const now = new Date();
     setCurrentNote((prevNote) => ({
@@ -172,7 +156,7 @@ export const useNotes = () => {
       content,
       lastEdited: now,
     }));
-  
+
     // Update the notes array
     setNotes((prevNotes) =>
       prevNotes.map((note) =>
@@ -181,13 +165,13 @@ export const useNotes = () => {
           : note
       )
     );
-    
+
     // Simulate a small delay to show saving indicator
     setTimeout(() => {
       setIsSaving(false);
     }, 500);
   };
-  
+
   return {
     notes,
     currentNote,
@@ -198,7 +182,6 @@ export const useNotes = () => {
     switchToNote,
     deleteNote,
     exportNotes,
-    importNotes,
     handleSave,
   };
 };

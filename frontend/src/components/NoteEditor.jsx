@@ -1,10 +1,11 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { useDisablePaste } from "../hooks/useDisablePaste";
 
 const NoteEditor = ({ note, onTitleChange, onSave, onContentChange }) => {
   const editorRef = useRef(null);
   const { clearClipboard } = useDisablePaste();
+  const [prevNoteId, setPrevNoteId] = useState(note.id);
 
   // Format the date for display
   const formatDate = (date) => {
@@ -31,7 +32,23 @@ const NoteEditor = ({ note, onTitleChange, onSave, onContentChange }) => {
   const getCurrentContent = () => {
     return editorRef.current ? editorRef.current.getContent() : note.content;
   };
+  useEffect(() => {
+    if (prevNoteId !== note.id && editorRef.current) {
+      // Reset undo manager completely
+      editorRef.current.undoManager.clear();
+      editorRef.current.undoManager.add(); // Reset the state
+      setPrevNoteId(note.id);
 
+      // Additional timeout to ensure it happens after content updates
+      setTimeout(() => {
+        if (editorRef.current) {
+          editorRef.current.undoManager.clear();
+          editorRef.current.undoManager.add();
+          editorRef.current.fire("undo:statechange");
+        }
+      }, 50);
+    }
+  }, [note.id, prevNoteId]);
   // Expose the getCurrentContent function to the parent component
   useEffect(() => {
     if (onContentChange) {
@@ -56,6 +73,9 @@ const NoteEditor = ({ note, onTitleChange, onSave, onContentChange }) => {
           apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
           onInit={(evt, editor) => {
             editorRef.current = editor;
+            // Initialize with empty undo stack
+            editor.undoManager.clear();
+            editor.undoManager.add();
           }}
           onEditorChange={handleEditorChange} // This will auto-save as user types
           value={note.content} // Use value instead of initialValue to properly update content
@@ -138,12 +158,19 @@ const NoteEditor = ({ note, onTitleChange, onSave, onContentChange }) => {
                   return false;
                 }
               });
-              
+
               // Place cursor at the end of the content when focusing
-              editor.on('focus', function() {
+              editor.on("focus", function () {
                 // Only move cursor to end on initial focus
                 editor.selection.select(editor.getBody(), true);
                 editor.selection.collapse(false);
+              });
+              editor.on("NodeChange", function () {
+                if (prevNoteId !== note.id) {
+                  editor.undoManager.clear();
+                  editor.undoManager.add();
+                  setPrevNoteId(note.id);
+                }
               });
             },
           }}
