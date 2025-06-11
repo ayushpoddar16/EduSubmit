@@ -33,7 +33,7 @@ const StudentDashboard = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/assignments", {
+      const response = await fetch("https://edusubmit-backend.onrender.com/api/assignments", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -58,7 +58,7 @@ const StudentDashboard = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/submissions/my", {
+      const response = await fetch("https://edusubmit-backend.onrender.com/api/submissions/my", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -95,7 +95,7 @@ const StudentDashboard = () => {
       setLoading(true);
       const token = localStorage.getItem("token");
 
-      const response = await fetch("http://localhost:5000/api/submissions", {
+      const response = await fetch("https://edusubmit-backend.onrender.com/api/submissions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

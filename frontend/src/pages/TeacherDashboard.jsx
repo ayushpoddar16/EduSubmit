@@ -34,7 +34,7 @@ const TeacherDashboard = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/assignments/teacher', {
+      const response = await fetch('https://edusubmit-backend.onrender.com/api/assignments/teacher', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -55,7 +55,7 @@ const TeacherDashboard = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/submissions', {
+      const response = await fetch('https://edusubmit-backend.onrender.com/api/submissions', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -81,7 +81,7 @@ const TeacherDashboard = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/assignments', {
+      const response = await fetch('https://edusubmit-backend.onrender.com/api/assignments', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ const TeacherDashboard = () => {
     if (window.confirm('Are you sure you want to delete this assignment?')) {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:5000/api/assignments/${id}`, {
+        const response = await fetch(`https://edusubmit-backend.onrender.com/api/assignments/${id}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`
@@ -135,7 +135,7 @@ const TeacherDashboard = () => {
   const handleGradeSubmission = async (submissionId, grade, feedback) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/submissions/${submissionId}/grade`, {
+      const response = await fetch(`https://edusubmit-backend.onrender.com/api/submissions/${submissionId}/grade`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
