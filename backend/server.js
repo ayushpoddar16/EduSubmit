@@ -13,7 +13,8 @@ const app = express();
 // CORS Configuration - UPDATED
 const corsOptions = {
   origin: [
-    'https://edusubmit-frontend.onrender.com', // Your frontend URL
+    'https://edusubmit-frontend.onrender.com',// Your frontend URL
+    'https://edusubmit.onrender.com',
     'http://localhost:3000', // For local development
     'http://localhost:5173', // For Vite dev server
   ],

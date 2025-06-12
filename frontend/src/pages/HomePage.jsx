@@ -489,7 +489,7 @@ const HomePage = () => {
           </div>
           
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 EduSubmit. All rights reserved. Built with ❤️ for educators and students worldwide.</p>
+            <p>&copy;Ayush Poddar. All rights reserved. Built with ❤️ for educators and students worldwide.</p>
           </div>
         </div>
       </footer>
