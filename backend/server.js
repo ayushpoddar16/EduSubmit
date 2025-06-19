@@ -15,6 +15,7 @@ const corsOptions = {
   origin: [
     'https://edusubmit-frontend.onrender.com',// Your frontend URL
     'https://edusubmit.onrender.com',
+    'https://edusubmit-ayush.onrender.com',
     'http://localhost:3000', // For local development
     'http://localhost:5173', // For Vite dev server
   ],
