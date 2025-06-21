@@ -179,7 +179,7 @@ const HomePage = () => {
               Features anti-cheating measures, real-time grading, and detailed progress tracking for enhanced academic excellence.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-5">
               <a
                 href="/signup"
                 className="group bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-200 transform hover:scale-105 shadow-xl hover:shadow-2xl flex items-center space-x-2"
@@ -187,33 +187,6 @@ const HomePage = () => {
                 <span>Start Your Journey</span>
                 <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </a>
-              
-              <button className="group flex items-center space-x-2 text-purple-600 hover:text-purple-700 font-semibold text-lg transition-colors duration-200">
-                <div className="bg-white rounded-full p-3 shadow-lg group-hover:shadow-xl transition-shadow">
-                  <Play className="h-6 w-6" fill="currentColor" />
-                </div>
-                <span>Watch Demo</span>
-              </button>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 max-w-4xl mx-auto">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-purple-600">{Math.floor(stats.students).toLocaleString()}+</div>
-                <div className="text-gray-600 font-medium">Active Students</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-indigo-600">{Math.floor(stats.teachers)}+</div>
-                <div className="text-gray-600 font-medium">Educators</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-purple-600">{Math.floor(stats.assignments).toLocaleString()}+</div>
-                <div className="text-gray-600 font-medium">Assignments</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-indigo-600">{Math.floor(stats.completedSubmissions).toLocaleString()}+</div>
-                <div className="text-gray-600 font-medium">Submissions</div>
-              </div>
             </div>
           </div>
         </div>
